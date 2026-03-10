@@ -24,7 +24,7 @@
                     <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">Email</label>
                     <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus
                            class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-red-500 focus:outline-none transition @error('email') border-red-500 @enderror"
-                           placeholder="admin@watchking.vn">
+                           placeholder="customer@example.com">
                     @error('email')
                         <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                     @enderror
@@ -42,16 +42,11 @@
                 </div>
 
                 <!-- Remember Me -->
-                <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center mb-6">
                     <label class="flex items-center">
                         <input type="checkbox" name="remember" class="w-4 h-4 text-red-600 border-gray-300 rounded focus:ring-red-500">
                         <span class="ml-2 text-sm text-gray-700">Ghi nhớ đăng nhập</span>
                     </label>
-                    @if (Route::has('password.request'))
-                        <a href="{{ route('password.request') }}" class="text-sm text-red-600 hover:text-red-800 font-medium">
-                            Quên mật khẩu?
-                        </a>
-                    @endif
                 </div>
 
                 <!-- Submit Button -->
@@ -68,22 +63,7 @@
                 </p>
             </form>
 
-            <!-- Demo Accounts -->
-            <div class="mt-6 pt-6 border-t border-gray-200">
-                <p class="text-sm font-semibold text-gray-700 mb-3">🔑 Tài khoản demo:</p>
-                <div class="space-y-2 text-xs">
-                    <div class="bg-purple-50 border border-purple-200 rounded-lg p-3">
-                        <p class="font-semibold text-purple-700">👑 Admin</p>
-                        <p class="text-gray-600">Email: admin@watchking.vn</p>
-                        <p class="text-gray-600">Password: password</p>
-                    </div>
-                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-3">
-                        <p class="font-semibold text-blue-700">👤 Khách hàng</p>
-                        <p class="text-gray-600">Email: customer@example.com</p>
-                        <p class="text-gray-600">Password: password</p>
-                    </div>
-                </div>
-            </div>
+
         </div>
 
         <!-- Back to Home -->

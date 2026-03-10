@@ -46,27 +46,65 @@
                 <!-- Price Filter -->
                 <h3 class="font-bold text-lg mt-6 mb-4 pb-3 border-b">💰 Mức Giá</h3>
                 <ul class="space-y-2">
-                    <li><a href="#" class="block px-3 py-2 rounded-lg hover:bg-red-50 text-gray-700 transition">Dưới 5 triệu</a></li>
-                    <li><a href="#" class="block px-3 py-2 rounded-lg hover:bg-red-50 text-gray-700 transition">5 - 10 triệu</a></li>
-                    <li><a href="#" class="block px-3 py-2 rounded-lg hover:bg-red-50 text-gray-700 transition">10 - 50 triệu</a></li>
-                    <li><a href="#" class="block px-3 py-2 rounded-lg hover:bg-red-50 text-gray-700 transition">Trên 50 triệu</a></li>
+                    <li>
+                        <a href="{{ route('products.index', array_merge(request()->except('price_range'), ['price_range' => '0-5000000'])) }}" 
+                           class="block px-3 py-2 rounded-lg hover:bg-red-50 transition {{ request('price_range') == '0-5000000' ? 'bg-red-50 text-red-600 font-semibold' : 'text-gray-700' }}">
+                            Dưới 5 triệu
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('products.index', array_merge(request()->except('price_range'), ['price_range' => '5000000-10000000'])) }}" 
+                           class="block px-3 py-2 rounded-lg hover:bg-red-50 transition {{ request('price_range') == '5000000-10000000' ? 'bg-red-50 text-red-600 font-semibold' : 'text-gray-700' }}">
+                            5 - 10 triệu
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('products.index', array_merge(request()->except('price_range'), ['price_range' => '10000000-50000000'])) }}" 
+                           class="block px-3 py-2 rounded-lg hover:bg-red-50 transition {{ request('price_range') == '10000000-50000000' ? 'bg-red-50 text-red-600 font-semibold' : 'text-gray-700' }}">
+                            10 - 50 triệu
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('products.index', array_merge(request()->except('price_range'), ['price_range' => '50000000-999999999'])) }}" 
+                           class="block px-3 py-2 rounded-lg hover:bg-red-50 transition {{ request('price_range') == '50000000-999999999' ? 'bg-red-50 text-red-600 font-semibold' : 'text-gray-700' }}">
+                            Trên 50 triệu
+                        </a>
+                    </li>
                 </ul>
 
                 <!-- Brand Filter -->
                 <h3 class="font-bold text-lg mt-6 mb-4 pb-3 border-b">🏷️ Thương Hiệu</h3>
                 <ul class="space-y-2">
-                    <li><label class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-red-50 cursor-pointer">
-                        <input type="checkbox" class="text-red-600"> <span class="text-gray-700">Rolex</span>
-                    </label></li>
-                    <li><label class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-red-50 cursor-pointer">
-                        <input type="checkbox" class="text-red-600"> <span class="text-gray-700">Omega</span>
-                    </label></li>
-                    <li><label class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-red-50 cursor-pointer">
-                        <input type="checkbox" class="text-red-600"> <span class="text-gray-700">Casio</span>
-                    </label></li>
-                    <li><label class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-red-50 cursor-pointer">
-                        <input type="checkbox" class="text-red-600"> <span class="text-gray-700">Seiko</span>
-                    </label></li>
+                    <li>
+                        <a href="{{ route('products.index', array_merge(request()->except('brand'), [])) }}" 
+                           class="block px-3 py-2 rounded-lg hover:bg-red-50 transition {{ !request('brand') ? 'bg-red-50 text-red-600 font-semibold' : 'text-gray-700' }}">
+                            Tất cả thương hiệu
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('products.index', array_merge(request()->except('brand'), ['brand' => 'Rolex'])) }}" 
+                           class="block px-3 py-2 rounded-lg hover:bg-red-50 transition {{ request('brand') == 'Rolex' ? 'bg-red-50 text-red-600 font-semibold' : 'text-gray-700' }}">
+                            Rolex
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('products.index', array_merge(request()->except('brand'), ['brand' => 'Omega'])) }}" 
+                           class="block px-3 py-2 rounded-lg hover:bg-red-50 transition {{ request('brand') == 'Omega' ? 'bg-red-50 text-red-600 font-semibold' : 'text-gray-700' }}">
+                            Omega
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('products.index', array_merge(request()->except('brand'), ['brand' => 'Casio'])) }}" 
+                           class="block px-3 py-2 rounded-lg hover:bg-red-50 transition {{ request('brand') == 'Casio' ? 'bg-red-50 text-red-600 font-semibold' : 'text-gray-700' }}">
+                            Casio
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('products.index', array_merge(request()->except('brand'), ['brand' => 'Seiko'])) }}" 
+                           class="block px-3 py-2 rounded-lg hover:bg-red-50 transition {{ request('brand') == 'Seiko' ? 'bg-red-50 text-red-600 font-semibold' : 'text-gray-700' }}">
+                            Seiko
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -97,49 +135,57 @@
 
             @if($products->count() > 0)
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                    @foreach($products as $product)
-                        <div class="bg-white rounded-xl shadow-md overflow-hidden hover-scale relative group">
+                    @foreach($products as $index => $product)
+                        <div class="bg-white rounded-xl shadow-md overflow-hidden hover-scale relative group"
+                             data-aos="fade-up" data-aos-delay="{{ ($index % 4) * 100 }}">
                             <!-- Discount Badge -->
                             @if($product->sale_price)
-                                <div class="absolute top-2 left-2 discount-badge text-white px-3 py-1 rounded-full text-sm font-bold z-10">
+                                <div class="absolute top-2 left-2 discount-badge text-white px-3 py-1 rounded-full text-sm font-bold z-10 transition-transform duration-300 group-hover:scale-110">
                                     -{{ round((($product->price - $product->sale_price) / $product->price) * 100) }}%
                                 </div>
                             @endif
 
                             <!-- Hot Badge -->
-                            <div class="absolute top-2 right-2 bg-red-600 text-white px-2 py-1 rounded text-xs font-bold z-10">
+                            <div class="absolute top-2 right-2 bg-red-600 text-white px-2 py-1 rounded text-xs font-bold z-10 animate-pulse">
                                 🔥 HOT
                             </div>
 
                             <a href="{{ route('products.show', $product->slug) }}">
-                                <div class="aspect-square bg-gradient-to-br from-red-50 to-pink-50 flex items-center justify-center relative overflow-hidden">
-                                    <div class="absolute inset-0 bg-gradient-to-br from-red-100/50 to-pink-100/50 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                                    <svg class="w-32 h-32 text-red-400 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
+                                <div class="aspect-square bg-gray-100 flex items-center justify-center relative overflow-hidden group-hover:shadow-lg transition">
+                                    <div class="absolute inset-0 bg-black/5 group-hover:bg-transparent transition duration-300 z-10"></div>
+                                    <img src="{{ Str::startsWith($product->image, 'http') ? $product->image : asset('images/products/' . $product->image) }}" 
+                                         alt="{{ $product->name }}" 
+                                         class="w-full h-full object-cover group-hover:scale-110 group-hover:-rotate-1 transition-all duration-500">
                                 </div>
                                 <div class="p-3">
                                     <p class="text-xs text-red-600 font-semibold mb-1">{{ $product->brand }}</p>
-                                    <h3 class="text-sm font-bold text-gray-900 mb-2 line-clamp-2 min-h-[2.5rem]">{{ $product->name }}</h3>
+                                    <h3 class="text-sm font-bold text-gray-900 mb-2 line-clamp-2 min-h-[2.5rem] group-hover:text-red-600 transition-colors">{{ $product->name }}</h3>
                                     
-                                    <div class="mb-2">
+                                    <div class="mb-2 min-h-[2.75rem]">
                                         @if($product->sale_price)
                                             <p class="text-lg font-bold text-red-600">{{ number_format($product->sale_price, 0, ',', '.') }}đ</p>
                                             <p class="text-xs text-gray-500 line-through">{{ number_format($product->price, 0, ',', '.') }}đ</p>
                                         @else
                                             <p class="text-lg font-bold text-gray-900">{{ number_format($product->price, 0, ',', '.') }}đ</p>
+                                            <p class="text-xs invisible">0đ</p>
                                         @endif
                                     </div>
 
                                     <div class="flex items-center gap-1 mb-2">
-                                        <span class="bg-blue-100 text-blue-700 text-xs px-2 py-0.5 rounded font-semibold">Trả góp 0%</span>
-                                        <span class="bg-gray-100 text-gray-700 text-xs px-2 py-0.5 rounded">{{ $product->movement_type }}</span>
+                                        <span class="bg-blue-50 text-blue-700 border border-blue-200 text-[10px] px-2 py-0.5 rounded font-bold uppercase tracking-wider">Trả góp 0%</span>
+                                        <span class="bg-gray-50 text-gray-700 border border-gray-200 text-[10px] px-2 py-0.5 rounded uppercase tracking-wider">{{ $product->movement_type }}</span>
                                     </div>
 
                                     @if($product->stock > 0)
-                                        <div class="text-xs text-green-600 font-medium">✓ Còn {{ $product->stock }} sp</div>
+                                        <div class="text-[11px] text-green-600 font-bold flex items-center gap-1">
+                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                            Còn {{ $product->stock }} sản phẩm
+                                        </div>
                                     @else
-                                        <div class="text-xs text-red-600 font-medium">✗ Hết hàng</div>
+                                        <div class="text-[11px] text-red-600 font-bold flex items-center gap-1">
+                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                            Hết hàng
+                                        </div>
                                     @endif
                                 </div>
                             </a>

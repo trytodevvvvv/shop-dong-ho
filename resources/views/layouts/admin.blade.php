@@ -53,6 +53,13 @@
                         <span class="font-medium">Đơn hàng</span>
                     </a>
 
+                    <a href="{{ route('admin.users.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('admin.users.*') ? 'sidebar-active' : '' }}">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                        <span class="font-medium">Người dùng</span>
+                    </a>
+
                     <div class="pt-4 mt-4 border-t border-white/20">
                         <p class="px-4 text-xs font-semibold text-purple-200 uppercase mb-2">Khác</p>
                         
@@ -61,7 +68,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
                             </svg>
-                            <span class="font-medium">Xem Website</span>
+                            <span class="font-medium">Xem như Khách hàng</span>
                         </a>
                     </div>
                 </div>
@@ -80,7 +87,7 @@
                         <p class="text-xs text-purple-200">Administrator</p>
                     </div>
                 </div>
-                <form method="POST" action="{{ route('logout') }}">
+                <form method="POST" action="{{ route('admin.logout') }}">
                     @csrf
                     <button type="submit" class="w-full bg-white/10 hover:bg-white/20 px-4 py-2 rounded-lg transition text-sm font-medium">
                         Đăng xuất
@@ -100,6 +107,7 @@
                     </div>
                     <div class="flex items-center gap-4">
                         <span class="text-sm text-gray-600">{{ now()->format('d/m/Y H:i') }}</span>
+                        @yield('header-actions')
                         <div class="bg-purple-100 text-purple-700 px-4 py-2 rounded-lg font-semibold text-sm">
                             👑 Admin
                         </div>
@@ -107,28 +115,9 @@
                 </div>
             </header>
 
-            <!-- Flash Messages -->
-            @if(session('success'))
-                <div class="mx-6 mt-4">
-                    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg flex items-center gap-2">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                        <span>{{ session('success') }}</span>
-                    </div>
-                </div>
-            @endif
 
-            @if(session('error'))
-                <div class="mx-6 mt-4">
-                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg flex items-center gap-2">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                        <span>{{ session('error') }}</span>
-                    </div>
-                </div>
-            @endif
+            <!-- Toast Notifications -->
+            @include('components.toast')
 
             <!-- Page Content -->
             <main class="flex-1 overflow-y-auto p-6">
@@ -136,5 +125,7 @@
             </main>
         </div>
     </div>
+    
+    @stack('scripts')
 </body>
 </html>

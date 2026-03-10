@@ -68,9 +68,11 @@
                 <select name="status" onchange="this.form.submit()" 
                         class="w-full px-4 py-3 rounded-xl font-semibold border-2 cursor-pointer
                         {{ $order->status === 'pending' ? 'bg-yellow-100 text-yellow-700 border-yellow-300' : '' }}
+                        {{ $order->status === 'shipping' ? 'bg-blue-100 text-blue-700 border-blue-300' : '' }}
                         {{ $order->status === 'completed' ? 'bg-green-100 text-green-700 border-green-300' : '' }}
                         {{ $order->status === 'cancelled' ? 'bg-red-100 text-red-700 border-red-300' : '' }}">
                     <option value="pending" {{ $order->status === 'pending' ? 'selected' : '' }}>⏳ Chờ xử lý</option>
+                    <option value="shipping" {{ $order->status === 'shipping' ? 'selected' : '' }}>🚚 Đang giao hàng</option>
                     <option value="completed" {{ $order->status === 'completed' ? 'selected' : '' }}>✅ Hoàn thành</option>
                     <option value="cancelled" {{ $order->status === 'cancelled' ? 'selected' : '' }}>❌ Đã hủy</option>
                 </select>

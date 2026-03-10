@@ -31,10 +31,10 @@
                     <td class="px-6 py-4 text-sm text-gray-900">#{{ $product->id }}</td>
                     <td class="px-6 py-4">
                         <div class="flex items-center gap-3">
-                            <div class="w-12 h-12 bg-gradient-to-br from-purple-100 to-purple-50 rounded-lg flex items-center justify-center flex-shrink-0">
-                                <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                </svg>
+                            <div class="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 border border-gray-200">
+                                <img src="{{ Str::startsWith($product->image, 'http') ? $product->image : asset('images/products/' . $product->image) }}" 
+                                     alt="{{ $product->name }}" 
+                                     class="w-full h-full object-cover">
                             </div>
                             <div>
                                 <p class="font-semibold text-gray-900">{{ $product->name }}</p>
@@ -55,7 +55,7 @@
                     </td>
                     <td class="px-6 py-4">
                         <span class="px-3 py-1 rounded-full text-sm font-semibold {{ $product->stock > 0 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' }}">
-                            {{ $product->stock }} sp
+                            {{ $product->stock }} sản phẩm
                         </span>
                     </td>
                     <td class="px-6 py-4">

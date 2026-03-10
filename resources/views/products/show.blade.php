@@ -19,20 +19,29 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
         <!-- Product Image -->
         <div class="bg-white rounded-2xl shadow-lg p-8">
-            <div class="bg-gradient-to-br from-red-50 to-pink-50 rounded-xl aspect-square flex items-center justify-center mb-4 relative overflow-hidden group">
-                <div class="absolute inset-0 bg-gradient-to-br from-red-100/50 to-pink-100/50 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                <svg class="w-64 h-64 text-red-400 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
+            <div class="bg-gray-50 rounded-xl aspect-square flex items-center justify-center mb-4 relative overflow-hidden group">
+                <img id="mainProductImage"
+                     src="{{ Str::startsWith($product->image, 'http') ? $product->image : asset('images/products/' . $product->image) }}" 
+                     alt="{{ $product->name }}" 
+                     class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
             </div>
             <div class="grid grid-cols-4 gap-2">
-                @for($i = 0; $i < 4; $i++)
-                <div class="bg-gradient-to-br from-red-50 to-pink-50 rounded-lg aspect-square flex items-center justify-center cursor-pointer hover:ring-2 hover:ring-red-500 transition">
-                    <svg class="w-12 h-12 text-red-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
+                @php
+                    $thumbImages = $product->images ?? [];
+                    // Nếu không có ảnh phụ, dùng ảnh chính làm 4 thumb
+                    if (empty($thumbImages)) {
+                        $mainImg = Str::startsWith($product->image, 'http') ? $product->image : asset('images/products/' . $product->image);
+                        $thumbImages = array_fill(0, 4, $mainImg);
+                    }
+                @endphp
+                @foreach($thumbImages as $idx => $thumb)
+                <div class="bg-gray-50 rounded-lg aspect-square overflow-hidden cursor-pointer hover:ring-2 hover:ring-red-500 transition {{ $idx === 0 ? 'ring-2 ring-red-400' : '' }}"
+                     onclick="switchMainImage('{{ $thumb }}', this)">
+                    <img src="{{ $thumb }}" 
+                         alt="Ảnh phụ {{ $idx + 1 }}"
+                         class="w-full h-full object-cover hover:scale-110 transition duration-300">
                 </div>
-                @endfor
+                @endforeach
             </div>
         </div>
 
@@ -112,7 +121,7 @@
                         <div>
                             <p class="text-sm text-gray-600">Tình trạng</p>
                             <p class="font-semibold {{ $product->stock > 0 ? 'text-green-600' : 'text-red-600' }}">
-                                {{ $product->stock > 0 ? 'Còn ' . $product->stock . ' sp' : 'Hết hàng' }}
+                                {{ $product->stock > 0 ? 'Còn ' . $product->stock . ' sản phẩm' : 'Hết hàng' }}
                             </p>
                         </div>
                     </div>
@@ -171,11 +180,10 @@
                 @foreach($relatedProducts as $related)
                     <div class="bg-gray-50 rounded-xl overflow-hidden hover-scale group">
                         <a href="{{ route('products.show', $related->slug) }}">
-                            <div class="aspect-square bg-gradient-to-br from-red-50 to-pink-50 flex items-center justify-center relative overflow-hidden">
-                                <div class="absolute inset-0 bg-gradient-to-br from-red-100/50 to-pink-100/50 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                                <svg class="w-24 h-24 text-red-400 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                </svg>
+                            <div class="aspect-square bg-gray-100 flex items-center justify-center relative overflow-hidden group-hover:shadow-lg transition">
+                                <img src="{{ Str::startsWith($related->image, 'http') ? $related->image : asset('images/products/' . $related->image) }}" 
+                                     alt="{{ $related->name }}" 
+                                     class="w-full h-full object-cover group-hover:scale-110 transition duration-300">
                             </div>
                             <div class="p-3">
                                 <p class="text-xs text-red-600 font-semibold mb-1">{{ $related->brand }}</p>
@@ -189,4 +197,14 @@
         </div>
     @endif
 </div>
+<script>
+function switchMainImage(src, el) {
+    document.getElementById('mainProductImage').src = src;
+    // Bỏ ring của tất cả thumbnails
+    document.querySelectorAll('[onclick^="switchMainImage"]').forEach(function(item) {
+        item.classList.remove('ring-2', 'ring-red-400');
+    });
+    el.classList.add('ring-2', 'ring-red-400');
+}
+</script>
 @endsection

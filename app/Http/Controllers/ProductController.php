@@ -23,6 +23,26 @@ class ProductController extends Controller
                   ->orWhere('brand', 'like', '%' . $request->search . '%');
         }
 
+        // Filter by price range
+        if ($request->has('price_range')) {
+            $priceRange = explode('-', $request->price_range);
+            if (count($priceRange) === 2) {
+                $minPrice = (int) $priceRange[0];
+                $maxPrice = (int) $priceRange[1];
+                
+                $query->where(function($q) use ($minPrice, $maxPrice) {
+                    // Check both regular price and sale price
+                    $q->whereBetween('price', [$minPrice, $maxPrice])
+                      ->orWhereBetween('sale_price', [$minPrice, $maxPrice]);
+                });
+            }
+        }
+
+        // Filter by brand
+        if ($request->has('brand')) {
+            $query->where('brand', $request->brand);
+        }
+
         $products = $query->paginate(12);
         $categories = Category::all();
 

@@ -16,7 +16,7 @@ class EnsureUserIsAdmin
     public function handle(Request $request, Closure $next): Response
     {
         if (!auth()->check() || auth()->user()->role !== 'admin') {
-            return redirect('/')->with('error', 'Bạn không có quyền truy cập trang này.');
+            return redirect()->route('admin.login');
         }
 
         return $next($request);
